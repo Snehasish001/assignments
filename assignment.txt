@@ -1,0 +1,46 @@
+1. Check age category :
+write a java program with a special class
+    a. to store name and DOB
+    b. to calculate age
+    c. to specify age category as follows : 
+        - "under age" if age < 18
+        - "Young Adult" if 18 < age < 30
+        - "Mastured adult" if 30 < age < 45
+        - "Middle aged" if 45 < age < 60 
+        - so on.
+
+2. Design your own stack such that the stack class objects need to be : 
+    -initialised by a constructor
+    -provideed proper push() and pop() methods
+    -checked for TOS content using peek()
+    -overloaded with display() for several task - 
+        1. display content of the whole stack
+        2. given a parameter for the depth of a particular element display just that element.
+
+3. Implement merge operations on two stacks presorted in ascending order. Check for stack overflow conditions all along.
+
+4. Inherit a special stack
+    * The inherited class should allow -
+        - a number to pushed in if and only if it is less than the one currently at the top.
+    * With the help of such STACK objects, solve the Tower of Hanoi problem most economically, by arranging a sequence of haphazard numbers in the original base type Stack in ascending order in a final STACK.
+
+5. Create a new class Graded_Emp from an existing class Emp, where class Emp has got two fields ID and Dep_Code[0-5], whereas the dervied class has an additional field Grade[A-E].
+
+6. Use the super keyword judiciously to 
+    (a) populate objects of both the base and dervied classes above with minimum repetition of code; & 
+    (b) change Dep_Code 0 to 10 while populating dervied objects.
+
+7. Create your own exception class to trap accepting invalid data above.
+
+8. How would you restructure your code if the Grade field is dependent on average marks obtained in several skill-tests recorded separately?
+
+Write java programs with package statements to :-
+9. Create an interface Shape with the getArea() method. Create three classes Rectangle, Circle, and Triangle that implement the Shape interface. Implement the getArea() method for each of the classes.
+
+10. Create a animal interface with a method called sound() that takes no arguments and returns void. create a few specific animal classes that implement Animal and overrides sound() differently for each species.
+
+11. Create an interface Sortable with a method sort() that sorts an array of integers in ascending order. create a class BubbleSort that sort() method.
+
+12. Create an interface ResizableTray with methods W(int width) and L(int length) that help trays to be resized. create a class Tray that implements the interface to carry a number of fixed size plates.
+
+13. inherit an interface ResizableBox from ResizableTray with a new method D(int depth). create a class NewBox that implements ResizableBox to house a given number of balls of fixed size using the ovveridden resizing methods.
