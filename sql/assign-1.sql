@@ -1,0 +1,148 @@
+-- 0. initial quaries 
+show databases;
+create database if not exists assignments;
+use assignments;
+
+
+-- 1. create table  
+CREATE TABLE DEPARTMENT (
+    DEPT_CODE CHAR(16) PRIMARY KEY,
+    DEPT_NAME CHAR(20)
+);
+
+CREATE TABLE DESIGNATION (
+    DESIG_CODE CHAR(16) PRIMARY KEY,
+    DESIG_DESC CHAR(20)
+);
+
+
+CREATE TABLE EMPLOYEE (
+    EMP_CODE CHAR(16) PRIMARY KEY,
+    EMP_NAME CHAR(20),
+    DEPT_CODE CHAR(16),
+    DESIG_CODE CHAR(16),
+    SEX CHAR(1),
+    ADDRESS CHAR(25),
+    CITY CHAR(20),
+    STATE CHAR(20),
+    PIN CHAR(6),
+    BASIC DECIMAL(10,2),
+    JN_DT DATE,
+    
+    FOREIGN KEY (DEPT_CODE) REFERENCES DEPARTMENT(DEPT_CODE),
+    FOREIGN KEY (DESIG_CODE) REFERENCES DESIGNATION(DESIG_CODE)
+);
+
+-- 2. display structure of table
+DESC department;
+DESC designation;
+DESC employee;
+
+-- 3. insert few rows 
+INSERT INTO DESIGNATION VALUES 
+('D001','Manager'),
+('D002','Executive'),
+('D003','Officer'),
+('D004','Clerk'),
+('D005','Helper');
+
+INSERT INTO DEPARTMENT VALUES 
+('DP001','Personnel'),
+('DP002','Production'),
+('DP003','Purchase'),
+('DP004','Finance'),
+('DP005','Research');
+
+INSERT INTO EMPLOYEE VALUES 
+('E001','Rahul Das','DP001','D001','M','12 Park Street','Kolkata','WB','700001',60000,'2023-01-15'),
+('E002','Anita Roy','DP002','D002','F','45 MG Road','Kolkata','WB','700002',45000,'2023-02-10'),
+('E003','Suman Sen','DP003','D003','M','21 Lake Road','Siliguri','WB','734001',35000,'2022-07-20'),
+('E004','Priya Dey','DP004','D004','F','10 College St','Kolkata','WB','700073',25000,'2024-03-05'),
+('E005','Amit Paul','DP005','D005','M','7 Hill Cart Rd','Jalpaiguri','WB','735101',18000,'2024-04-12');
+
+-- 4. insert few rows without DEPT_CODE and BASIC
+INSERT INTO EMPLOYEE (EMP_CODE,EMP_NAME,DESIG_CODE,SEX,ADDRESS,CITY,STATE,PIN,JN_DT) VALUES 
+('E006','Rita Ghosh','D003','F','22 Station Rd','Malda','WB','732101','2024-05-01'),
+('E007','Arjun Roy','D004','M','15 Market Rd','Cooch Behar','WB','736101','2024-06-15');
+
+-- 5. 
+SELECT * 
+FROM EMPLOYEE
+WHERE DEPT_CODE IS NULL;
+
+-- 6. 
+SELECT *
+FROM EMPLOYEE
+WHERE BASIC = 0;
+
+-- 7. 
+SELECT *
+FROM EMPLOYEE
+WHERE BASIC IS NULL;
+
+-- 8. 
+SELECT AVG(BASIC) AS Average_Basic
+FROM EMPLOYEE;
+
+-- 9. 
+UPDATE EMPLOYEE
+SET BASIC = 0
+WHERE BASIC IS NULL;
+
+-- 10. 
+SELECT AVG(BASIC) AS Average_Basic
+FROM EMPLOYEE;
+
+-- 11.
+DELETE FROM EMPLOYEE
+WHERE DEPT_CODE IS NULL;
+
+-- 12. 
+SELECT EMP_NAME,
+       BASIC + (0.5 * BASIC) + (0.4 * BASIC) AS NET_PAY
+FROM EMPLOYEE;
+
+-- 13. 
+SELECT UPPER(EMP_NAME) AS EMP_NAME,
+       BASIC
+FROM EMPLOYEE
+ORDER BY DEPT_CODE ASC;
+
+-- 14. 
+SELECT *
+FROM EMPLOYEE
+WHERE JN_DT > '2010-01-01';
+
+-- 15.
+SELECT COUNT(*) AS JAN_JOINED
+FROM EMPLOYEE
+WHERE MONTH(JN_DT) = 1;
+
+-- 16.
+SELECT MAX(BASIC) AS MAX_BASIC,
+       MIN(BASIC) AS MIN_BASIC
+FROM EMPLOYEE;
+
+-- 17.
+SELECT COUNT(*) AS FEMALE_EMPLOYEES
+FROM EMPLOYEE
+WHERE SEX = 'F';
+
+-- 18.
+UPDATE EMPLOYEE
+SET CITY = UPPER(CITY);
+
+-- 19.
+SELECT COUNT(DISTINCT CITY) AS TOTAL_CITIES
+FROM EMPLOYEE;
+
+-- 20.
+SELECT *
+FROM EMPLOYEE
+ORDER BY DEPT_CODE ASC, BASIC DESC;
+
+
+
+
+
+
