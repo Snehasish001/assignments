@@ -1,158 +1,281 @@
-show databases;
+-- 0. INITIAL COMMAND
+SHOW DATABASES;
+USE ASSIGNMENTS;
 
-use assignments;
 
-show tables;
+-- 1. Minimum, Maximum and Average BASIC department wise
 
-select * from department;
-select * from designation;
-select * from employee;
-
--- 1.
-select dept_code, min(basic) as min_basic, max(basic) as max_basic, avg(basic) as avg_basic from employee group by dept_code;
-
--- 2.
-select dept_code, count(*) as female_employee from employee where sex = 'F' group by dept_code; 
-
--- 3.
-select dept_code, city, count(*) as employee from employee group by dept_code, city order by dept_code, city asc;
-
--- 4.
-SELECT DEPT_CODE,
-       DESIG_CODE,
-       COUNT(*) AS NO_OF_EMPLOYEES
+SELECT
+    DEPT_CODE,
+    MIN(BASIC) AS MIN_BASIC,
+    MAX(BASIC) AS MAX_BASIC,
+    AVG(BASIC) AS AVG_BASIC
 FROM EMPLOYEE
-WHERE YEAR(JN_DT) = 2000
-GROUP BY DEPT_CODE, DESIG_CODE
-ORDER BY NO_OF_EMPLOYEES ASC;
+GROUP BY DEPT_CODE;
 
-SELECT D.DEPT_CODE,
-       D.DEPT_NAME,
-       G.DESIG_DESC,
-       COUNT(*) AS NO_OF_EMPLOYEES
+
+-- 2. Number of female employees in each department
+
+SELECT
+    DEPT_CODE,
+    COUNT(*) AS FEMALE_EMPLOYEES
+FROM EMPLOYEE
+WHERE SEX='F'
+GROUP BY DEPT_CODE;
+
+
+
+-- 3. City wise number of employees for each department
+
+SELECT
+    DEPT_CODE,
+    CITY,
+    COUNT(*) AS TOTAL_EMPLOYEES
+FROM EMPLOYEE
+GROUP BY DEPT_CODE, CITY;
+
+
+-- 4. Designation wise employee count joined in year 2000
+--    department wise, ascending order of count
+
+SELECT
+    E.DEPT_CODE,
+    D.DESIG_DESC,
+    COUNT(*) AS EMP_COUNT
 FROM EMPLOYEE E
-JOIN DEPARTMENT D
-    ON E.DEPT_CODE = D.DEPT_CODE
-JOIN DESIGNATION G
-    ON E.DESIG_CODE = G.DESIG_CODE
-WHERE YEAR(E.JN_DT) = 2000
-GROUP BY D.DEPT_CODE,
-         D.DEPT_NAME,
-         G.DESIG_DESC
-ORDER BY NO_OF_EMPLOYEES ASC;
+JOIN DESIGNATION D
+    ON E.DESIG_CODE=D.DESIG_CODE
+WHERE YEAR(E.JN_DT)=2000
+GROUP BY E.DEPT_CODE,D.DESIG_DESC
+ORDER BY EMP_COUNT ASC;
+
+-- 5. Department wise total basic of male employees
+--    Total > 50000, descending order
 
 
--- 5.
-SELECT DEPT_CODE,
-       SUM(BASIC) AS TOTAL_BASIC
+SELECT
+    DEPT_CODE,
+    SUM(BASIC) AS TOTAL_BASIC
 FROM EMPLOYEE
-WHERE SEX = 'M'
+WHERE SEX='M'
 GROUP BY DEPT_CODE
 HAVING SUM(BASIC) > 50000
 ORDER BY TOTAL_BASIC DESC;
 
--- 6
-select E.emp_name, D.desig_desc, E.basic from Employee E join Designation D on e.desig_code = d.desig_code;
 
--- 7
-select e.emp_name, d.desig_desc, de.dept_name, e.basic from employee e join designation d on e.desig_code = d.desig_code join department de on e.dept_code = de.dept_code;
+-- 6. Employee Name, Designation Description and Basic
 
--- 8.
-SELECT D.DEPT_CODE
+SELECT
+    E.EMP_NAME,
+    D.DESIG_DESC,
+    E.BASIC
+FROM EMPLOYEE E
+JOIN DESIGNATION D
+    ON E.DESIG_CODE=D.DESIG_CODE;
+
+
+
+-- 7. Employee Name, Designation, Department Name, Basic
+
+SELECT
+    E.EMP_NAME,
+    DG.DESIG_DESC,
+    DP.DEPT_NAME,
+    E.BASIC
+FROM EMPLOYEE E
+JOIN DESIGNATION DG
+    ON E.DESIG_CODE=DG.DESIG_CODE
+JOIN DEPARTMENT DP
+    ON E.DEPT_CODE=DP.DEPT_CODE;
+
+
+-- 8. Department codes where no employee works
+
+
+SELECT DEPT_CODE
+FROM DEPARTMENT
+WHERE DEPT_CODE NOT IN
+(
+    SELECT DISTINCT DEPT_CODE
+    FROM EMPLOYEE
+    WHERE DEPT_CODE IS NOT NULL
+);
+
+
+-- 9. Department names where at least one employee works
+
+SELECT DISTINCT D.DEPT_NAME
 FROM DEPARTMENT D
-LEFT JOIN EMPLOYEE E
-    ON D.DEPT_CODE = E.DEPT_CODE
-GROUP BY D.DEPT_CODE
-HAVING COUNT(E.EMP_CODE) = 0;
-
--- 9.
-select d.dept_name from employee e join department d on e.dept_code = d.dept_code group by e.dept_code having count(*) >= 1;
+JOIN EMPLOYEE E
+    ON D.DEPT_CODE=E.DEPT_CODE;
 
 
--- 10.
-select d.dept_name from employee e join department d on e.dept_code = d.dept_code group by e.dept_code having count(*) >= 10;
 
--- 11.
+-- 10. Department names where at least 10 employees work
+
+SELECT
+    D.DEPT_NAME
+FROM DEPARTMENT D
+JOIN EMPLOYEE E
+    ON D.DEPT_CODE=E.DEPT_CODE
+GROUP BY D.DEPT_CODE,D.DEPT_NAME
+HAVING COUNT(*) >= 10;
+
+
+
+-- 11. Department code where highest paid employee works
+
 SELECT DEPT_CODE
 FROM EMPLOYEE
-WHERE BASIC = (
+WHERE BASIC =
+(
     SELECT MAX(BASIC)
     FROM EMPLOYEE
 );
 
--- 12. Find the Designation description of the employee with highest basic.
-select d.desig_desc from employee e join designation d on e.desig_code = d.desig_code where basic = (
-	select max(basic) from employee
+
+-- 12. Designation description of highest paid employee
+
+SELECT D.DESIG_DESC
+FROM EMPLOYEE E
+JOIN DESIGNATION D
+    ON E.DESIG_CODE=D.DESIG_CODE
+WHERE E.BASIC =
+(
+    SELECT MAX(BASIC)
+    FROM EMPLOYEE
 );
 
 
--- 13. Find the no. of managers in each department.
-select d.dept_name, count(*) as managers from employee e join department d on e.dept_code = d.dept_code join designation ds on e.desig_code = ds.desig_code where ds.desig_desc = 'Manager' group by d.dept_name;
 
--- 14. Find the maximum basic from EMP table without using MAX().
-select basic as max_basic from employee order by basic desc limit 1;
+-- 13. Number of managers in each department
 
--- 15. Find the minimum basic from EMP table without using MIN()
-select basic as min_basic from employee order by basic asc limit 1;
+SELECT
+    E.DEPT_CODE,
+    COUNT(*) AS TOTAL_MANAGERS
+FROM EMPLOYEE E
+JOIN DESIGNATION D
+    ON E.DESIG_CODE=D.DESIG_CODE
+WHERE D.DESIG_DESC='Manager'
+GROUP BY E.DEPT_CODE;
 
--- 16. Find the name of the department with highest total basic. Do the same for highest average basic and maximum no. of employee.
-select d.dept_name from employee e join department d on e.dept_code = d.dept_code order by basic desc limit 1;
-SELECT d.dept_name
-FROM employee e
-JOIN department d
-    ON e.dept_code = d.dept_code
-WHERE e.basic = (
-    SELECT MAX(basic)
-    FROM employee
-);
 
-select d.desig_desc from employee e join designation d on e.desig_code = d.desig_code where basic = (
-	select max(basic) from employee
-);
+-- 14. Maximum BASIC without using MAX()
 
-SELECT d.DESIG_DESC,
-       e.DEPT_CODE,
-       SUM(e.BASIC) AS TOTAL_BASIC
-FROM EMPLOYEE e
-JOIN DESIGNATION d
-    ON e.DESIG_CODE = d.DESIG_CODE
-WHERE e.SEX = 'M'
-GROUP BY e.DEPT_CODE, d.DESIG_DESC
-HAVING SUM(e.BASIC) > 50000
-ORDER BY TOTAL_BASIC DESC
+
+SELECT BASIC AS MAX_BASIC
+FROM EMPLOYEE
+ORDER BY BASIC DESC
 LIMIT 1;
 
 
--- 17. Insert same rows into EMP table with designation code not existing in DESIGNATION table.
+
+-- 15. Minimum BASIC without using MIN()
+
+
+SELECT BASIC AS MIN_BASIC
+FROM EMPLOYEE
+ORDER BY BASIC ASC
+LIMIT 1;
+
+
+-- 16(A). Department with highest total basic
+
+SELECT D.DEPT_NAME
+FROM DEPARTMENT D
+JOIN EMPLOYEE E
+    ON D.DEPT_CODE=E.DEPT_CODE
+GROUP BY D.DEPT_CODE,D.DEPT_NAME
+ORDER BY SUM(E.BASIC) DESC
+LIMIT 1;
+
+
+
+-- 16(B). Department with highest average basic
+
+SELECT D.DEPT_NAME
+FROM DEPARTMENT D
+JOIN EMPLOYEE E
+    ON D.DEPT_CODE=E.DEPT_CODE
+GROUP BY D.DEPT_CODE,D.DEPT_NAME
+ORDER BY AVG(E.BASIC) DESC
+LIMIT 1;
+
+
+-- 16(C). Department with maximum employees
+
+SELECT D.DEPT_NAME
+FROM DEPARTMENT D
+JOIN EMPLOYEE E
+    ON D.DEPT_CODE=E.DEPT_CODE
+GROUP BY D.DEPT_CODE,D.DEPT_NAME
+ORDER BY COUNT(*) DESC
+LIMIT 1;
+
+
+
+-- 17. Insert rows with invalid designation code
+-- Only works if foreign key constraint removed/disabled
+
+--foreign key drop command
+-- Format : SHOW CREATE TABLE table_name;
+-- output : 
+-- CONSTRAINT `employee_ibfk_1`
+--     FOREIGN KEY (`DEPT_CODE`)
+--     REFERENCES `department` (`DEPT_CODE`)
+
+-- CONSTRAINT `employee_ibfk_2`
+--     FOREIGN KEY (`DESIG_CODE`)
+--     REFERENCES `designation` (`DESIG_CODE`)
+
+-- Format : ALTER TABLE table_name DROP FOREIGN KEY constraint_name;
+
+ALTER TABLE employee
+DROP FOREIGN KEY employee_ibfk_1,
+DROP FOREIGN KEY employee_ibfk_2;
+
+
 INSERT INTO EMPLOYEE
 VALUES
-('E2001','Rohan Das','DP001','D999',
- 'M','Park Road','Kolkata','WB',
- '700001',30000,'2024-01-01');
+('E100','Test User','DP001','D999','M',
+ 'ABC Road','Kolkata','WB','700001',
+ 30000,'2024-01-01');
 
--- 18. Delete the rows from EMP table with invalid DESIG_CODE. 
-SELECT *
-FROM EMPLOYEE E
-WHERE NOT EXISTS (
-    SELECT 1
-    FROM DESIGNATION D
-    WHERE D.DESIG_CODE = E.DESIG_CODE
+
+
+-- 18. Delete rows having invalid DESIG_CODE
+
+
+DELETE FROM EMPLOYEE
+WHERE DESIG_CODE NOT IN
+(
+    SELECT DESIG_CODE
+    FROM DESIGNATION
 );
 
--- 19. 
-SELECT E1.EMP_NAME
+
+
+-- 19. Female employees whose BASIC is greater than
+--     average BASIC of their department
+
+
+SELECT
+    E1.EMP_NAME
 FROM EMPLOYEE E1
-WHERE E1.SEX = 'F'
-AND E1.BASIC > (
+WHERE E1.SEX='F'
+AND E1.BASIC >
+(
     SELECT AVG(E2.BASIC)
     FROM EMPLOYEE E2
-    WHERE E2.DEPT_CODE = E1.DEPT_CODE
+    WHERE E2.DEPT_CODE=E1.DEPT_CODE
 );
 
--- 20.
+
+-- 20. Number of female managers
+
 SELECT COUNT(*) AS FEMALE_MANAGERS
 FROM EMPLOYEE E
 JOIN DESIGNATION D
-    ON E.DESIG_CODE = D.DESIG_CODE
-WHERE E.SEX = 'F'
-AND D.DESIG_DESC = 'Manager';
+    ON E.DESIG_CODE=D.DESIG_CODE
+WHERE E.SEX='F'
+AND D.DESIG_DESC='Manager';
