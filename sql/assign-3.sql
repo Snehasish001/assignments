@@ -195,13 +195,7 @@ WHERE empcode=101;
 -- ============================================================
 
 CREATE VIEW D1_EMP_VIEW AS
-SELECT
-    empcode,
-    ename,
-    dcode,
-    basic
-FROM Employee
-WHERE dcode='D1';
+SELECT empcode, ename, dcode, basic FROM Employee WHERE dcode='D1';
 
 
 
@@ -210,8 +204,7 @@ WHERE dcode='D1';
 -- Insert valid row through view
 -- ============================================================
 
-INSERT INTO D1_EMP_VIEW
-VALUES
+INSERT INTO D1_EMP_VIEW VALUES
 (201,'ANIK','D1',7500);
 
 
@@ -221,8 +214,7 @@ VALUES
 -- Expected : Foreign Key Error
 -- ============================================================
 
-INSERT INTO D1_EMP_VIEW
-VALUES
+INSERT INTO D1_EMP_VIEW VALUES
 (202,'ROHIT','D5',7000);
 
 
@@ -232,8 +224,7 @@ VALUES
 -- Find inserted row in original table
 -- ============================================================
 
-SELECT *
-FROM Employee
+SELECT * FROM Employee
 WHERE empcode=201;
 
 
@@ -253,10 +244,7 @@ SET basic = basic + 100;
 -- Check original table
 -- ============================================================
 
-SELECT
-    empcode,
-    ename,
-    basic
+SELECT empcode, ename, basic
 FROM Employee;
 
 
@@ -276,23 +264,9 @@ DROP VIEW D1_EMP_VIEW;
 -- ============================================================
 
 CREATE VIEW EMP_LEAVE_VIEW AS
-
-SELECT
-    E.empcode,
-    E.ename,
-    D.dname,
-    E.basic,
-    L.leave_type,
-    L.from_date,
-    L.to_date
-
-FROM Employee E
-
-JOIN Department D
-ON E.dcode = D.dcode
-
-JOIN LeaveRegister L
-ON E.empcode = L.empcode;
+SELECT E.empcode, E.ename, D.dname, E.basic, L.leave_type, L.from_date, L.to_date
+FROM Employee E JOIN Department D ON E.dcode = D.dcode
+JOIN LeaveRegister L ON E.empcode = L.empcode;
 
 
 
@@ -302,17 +276,8 @@ ON E.empcode = L.empcode;
 -- Expected : View not updatable
 -- ============================================================
 
-INSERT INTO EMP_LEAVE_VIEW
-VALUES
-(
-500,
-'JOY',
-'COMPUTER SCIENCE',
-7000,
-'CL',
-'2026-04-01',
-'2026-04-03'
-);
+INSERT INTO EMP_LEAVE_VIEW VALUES
+(500,'JOY','COMPUTER SCIENCE',7000,'CL','2026-04-01','2026-04-03');
 
 
 
@@ -343,20 +308,9 @@ DROP VIEW EMP_LEAVE_VIEW;
 -- ============================================================
 
 CREATE TABLE D1_EMPLOYEE AS
-
-SELECT
-    E.empcode,
-    E.ename,
-    D.dname,
-    E.basic
-
-FROM Employee E
-
-JOIN Department D
-ON E.dcode = D.dcode
-
-WHERE E.dcode='D1'
-AND E.basic=7000;
+SELECT E.empcode, E.ename, D.dname, E.basic
+FROM Employee E JOIN Department D ON E.dcode = D.dcode
+WHERE E.dcode='D1' AND E.basic=7000;
 
 
 
@@ -366,18 +320,8 @@ AND E.basic=7000;
 -- ============================================================
 
 INSERT INTO D1_EMPLOYEE
-
-SELECT
-    E.empcode,
-    E.ename,
-    D.dname,
-    E.basic
-
-FROM Employee E
-
-JOIN Department D
-ON E.dcode = D.dcode
-
+SELECT E.empcode, E.ename, D.dname, E.basic
+FROM Employee E JOIN Department D ON E.dcode = D.dcode
 WHERE E.basic >= 7000;
 
 
@@ -406,8 +350,7 @@ SET netpay = basic * 1.5;
 -- Display Table
 -- ============================================================
 
-SELECT *
-FROM D1_EMPLOYEE;
+SELECT * FROM D1_EMPLOYEE;
 
 
 
