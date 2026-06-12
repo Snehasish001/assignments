@@ -90,9 +90,13 @@ void display(Node* head) {
     while (temp != NULL) {
         if (!first && temp->cof > 0) printf(" + ");
         if (temp->cof < 0) printf(" - ");
-
         int coef = temp->cof < 0 ? -temp->cof : temp->cof;
-        printf("%d%c^%d", coef, temp->var, temp->pwr);
+        if (temp->next == NULL) {
+            printf("%d", coef); 
+        } else {
+            printf("%d%c^%d", coef, temp->var, temp->pwr);
+        }
+        
         first = 0;
         temp = temp->next;
     }
