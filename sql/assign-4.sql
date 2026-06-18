@@ -62,8 +62,7 @@ FROM EMP;
 -- 3. Set the format of columns as mentioned below, So that in subsequent SELECT statement ,values
 -- appear in the specified format:
 -- *format of BASIC is such that a value of 7000 will be shown as7,000
--- *Format of GRADE will be such that full column name
--- appears in the display.
+-- *Format of GRADE will be such that full column name appears in the display.
 -- *For JN-DT format is such that 01-JAN-00 will be shown as JANURY 01,2000
 
 SELECT
@@ -88,17 +87,15 @@ DESCRIBE EMP;
 
 -- 5. a)Show the records from EMP table in the ascending order of DCODE . DCODE value will be shown
 -- only for the first record of that department (same of DCODE is not repeated)
-SELECT *
-FROM EMP
-ORDER BY DCODE;
+SELECT * FROM EMP ORDER BY DCODE;
 
 
 -- b) Further take measures so that ,after displaying the records of a department it skips one line .
 -- c)Further take measures so that records one also ordered on the basic of GRADE with in a
 -- department &amp; same GRADE value is not repeated.
-SELECT *
-FROM EMP
-ORDER BY DCODE, GRADE;
+SELECT * FROM EMP ORDER BY DCODE, GRADE;
+
+
 -- d) Take measure so that at the end of each GRADE in a department it will show average Basic for that
 -- grade in that department. At the end of each department, it will show the average &amp; total Basic for the
 -- department. At the end of all departments it will show the overall total basic &amp; average basic.
