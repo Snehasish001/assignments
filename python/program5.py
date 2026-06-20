@@ -1,4 +1,5 @@
-def fibonaccci():
+from typing import Generator
+def fibonaccci() -> Generator[int]:
     n0 = 0
     n1 = 1
     yield n0

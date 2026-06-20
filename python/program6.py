@@ -1,9 +1,8 @@
-# Base Exception
+
 class UserError(Exception):
     pass
 
 
-# Specific Exceptions
 class UsernameNotUniqueError(UserError):
     pass
 
@@ -20,7 +19,6 @@ class InvalidEmailError(UserError):
     pass
 
 
-# User Data
 users = [
     ("rahul", "rahul@gmail.com", 20),
     ("amit", "amit@yahoo.com", 17),
@@ -40,31 +38,29 @@ for username, email, age in users:
 
     try:
 
-        # Username uniqueness check
         if username in usernames:
             raise UsernameNotUniqueError(
                 f"Username '{username}' already exists."
             )
 
-        # Age validation
         if not isinstance(age, int) or age <= 0:
             raise InvalidAgeError(
                 f"Invalid age '{age}'. Age must be positive."
             )
 
-        # Under age check
+
         if age < 16:
             raise UnderAgeError(
                 f"User '{username}' is under 16."
             )
 
-        # Email validation
+
         if "@" not in email or "." not in email.split("@")[-1]:
             raise InvalidEmailError(
                 f"Invalid email '{email}'."
             )
 
-        # Add user to directory
+
         directory[username] = {
             "email": email,
             "age": age

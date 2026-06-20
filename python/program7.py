@@ -12,7 +12,7 @@ def findfiles(path):
             yield from findfiles(full_path)
 
 
-directory = 'folder'
+directory = r'C:\Users\sneha\Desktop\Github\Assignments\python'
 
 for file in findfiles(directory):
     print(file)

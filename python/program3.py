@@ -1,8 +1,5 @@
 n = int(input("Enter the range: "))
 
-# -----------------------------
-# Using Comprehension + iter()
-# -----------------------------
 
 even = iter([i for i in range(n + 1) if i % 2 == 0])
 odd = iter([i for i in range(n + 1) if i % 2 != 0])
@@ -18,9 +15,6 @@ while True:
         break
 
 
-# -----------------------------
-# Using Custom Iterator Classes
-# -----------------------------
 
 class Even:
     def __init__(self, limit):
