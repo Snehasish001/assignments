@@ -12,7 +12,7 @@ public class BubbleSort implements Sortable {
     }
 
     void display(int[] arr) {
-        System.out.print("Array : | ");
+        System.out.print("\nSorted Array : | ");
         for (int i = 0; i < arr.length; i++) {
             System.out.print(arr[i]+" | ");
         }
@@ -22,6 +22,12 @@ public class BubbleSort implements Sortable {
     public static void main(String[] args) {
         BubbleSort b = new BubbleSort();
         int[] arr = {10, 5, 20, 32, 1, 23, 42, 2, 1, 3, 4, 6};
+
+        System.out.print("Unsorted Array : | ");
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i]+" | ");
+        }
+
         b.sort(arr);
 
         b.display(arr);
