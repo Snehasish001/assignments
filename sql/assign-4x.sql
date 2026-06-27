@@ -125,7 +125,6 @@ DCODE SHOWN ONLY ONCE
 =========================================================*/
 
 BREAK ON DCODE;
-
 SELECT ECODE,
        ENAME,
        DCODE,
@@ -197,6 +196,32 @@ ORDER BY DCODE, GRADE;
 /*=========================================================
 OPTIONAL: CLEAR BREAKS & COMPUTES AFTER USE
 =========================================================*/
-
+-- Reset previous formatting rules
 CLEAR BREAKS;
 CLEAR COMPUTES;
+
+-- Display optimization settings
+SET PAGESIZE 60;
+SET LINESIZE 120;
+SET FEEDBACK OFF;
+
+-- FIX: Added "ON REPORT" to the break settings
+BREAK ON DCODE SKIP 1 ON GRADE SKIP 1 ON REPORT;
+
+-- 1. Compute for each GRADE group
+COMPUTE AVG OF BASIC ON GRADE;
+
+-- 2. Compute for each DEPARTMENT group (DCODE)
+COMPUTE AVG SUM OF BASIC ON DCODE;
+
+-- 3. Compute for the WHOLE TABLE (Will now display correctly)
+COMPUTE AVG SUM OF BASIC ON REPORT;
+
+-- Execution Query
+SELECT ECODE,
+       ENAME,
+       DCODE,
+       GRADE,
+       BASIC
+FROM EMP
+ORDER BY DCODE, GRADE;

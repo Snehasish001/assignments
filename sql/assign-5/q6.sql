@@ -1,0 +1,30 @@
+SET SERVEROUTPUT ON;
+SET VERIFY OFF;
+
+DECLARE
+    VAR_DAYS NUMBER;
+BEGIN
+    VAR_DAYS := TO_NUMBER(TO_CHAR(LAST_DAY(SYSDATE),'DD'));
+    DBMS_OUTPUT.PUT_LINE('EFFECTIVE BASIC REPORT');
+    DBMS_OUTPUT.PUT_LINE('----------------------');
+    FOR R IN
+    (
+        SELECT
+            E.ECODE,
+            E.ENAME,
+            E.BASIC,
+            NVL(L.NO_OF_DAYS,0) LEAVE_DAYS,
+            E.BASIC -(E.BASIC * NVL(L.NO_OF_DAYS,0) / VAR_DAYS) EFFECTIVE_BASIC
+        FROM EMP E LEFT JOIN LEAVE_TAB L ON E.ECODE = L.EMP_NO
+        AND L.MONTH_NAME = TO_CHAR(SYSDATE, 'MON') ORDER BY E.ECODE
+    )
+    LOOP
+        DBMS_OUTPUT.PUT_LINE(
+            R.ECODE||'  '||
+            RPAD(R.ENAME,20)||'  '||
+            'EFFECTIVE BASIC = '||
+            ROUND(R.EFFECTIVE_BASIC,2)
+        );
+    END LOOP;
+END;
+/
