@@ -14,7 +14,8 @@ BEGIN
             E.ENAME,
             E.BASIC,
             NVL(L.NO_OF_DAYS,0) LEAVE_DAYS,
-            E.BASIC -(E.BASIC * NVL(L.NO_OF_DAYS,0) / VAR_DAYS) EFFECTIVE_BASIC
+            E.BASIC -(E.BASIC * NVL(L.NO_OF_DAYS,0) / VAR_DAYS) EFFECTIVE_BASIC,
+            L.NO_OF_DAYS
         FROM EMP E LEFT JOIN LEAVE_TAB L ON E.ECODE = L.EMP_NO
         AND L.MONTH_NAME = TO_CHAR(SYSDATE, 'MON') ORDER BY E.ECODE
     )
@@ -22,8 +23,11 @@ BEGIN
         DBMS_OUTPUT.PUT_LINE(
             R.ECODE||'  '||
             RPAD(R.ENAME,20)||'  '||
-            'EFFECTIVE BASIC = '||
-            ROUND(R.EFFECTIVE_BASIC,2)
+            'BASIC = '||
+            RPAD(R.BASIC, 8) ||
+            ' EFFECTIVE BASIC = '||
+            ROUND(R.EFFECTIVE_BASIC,2) ||
+            '  LEAVE : ' || NVL(R.NO_OF_DAYS, 0)
         );
     END LOOP;
 END;
