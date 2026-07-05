@@ -16,7 +16,6 @@ typedef struct Queue
     Node *rear;
 } Queue;
 
-/* Basic Queue Operations */
 
 bool isEmpty(Queue *q)
 {
@@ -106,8 +105,6 @@ void createQueue(Queue arr[], int n)
     arr[n].rear = NULL;
 }
 
-/* 11. Append Queue X at end of Queue Y */
-
 void appendQueue(Queue *y, Queue *x)
 {
     if (isEmpty(x))
@@ -133,8 +130,6 @@ void appendQueue(Queue *y, Queue *x)
     printf("Queue Appended Successfully.\n");
 }
 
-/* 12. Equality Function */
-
 bool eq(Queue *q1, Queue *q2)
 {
     Node *p = q1->front;
@@ -151,8 +146,6 @@ bool eq(Queue *q1, Queue *q2)
 
     return (p == NULL && q == NULL);
 }
-
-/* 13. Reverse Queue */
 
 void reverseQueue(Queue *q)
 {
@@ -178,8 +171,6 @@ void reverseQueue(Queue *q)
     printf("Queue Reversed Successfully.\n");
 }
 
-/* 14. Replace */
-
 void replace(Queue *q, int e, int x)
 {
     Node *temp = q->front;
@@ -194,8 +185,6 @@ void replace(Queue *q, int e, int x)
 
     printf("Replacement Done.\n");
 }
-
-/* Main */
 
 int main()
 {

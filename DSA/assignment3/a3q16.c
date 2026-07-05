@@ -6,19 +6,17 @@
 int front = -1, rear = -1;
 int queue[MAX];
 
-/* Check Empty */
+
 bool isEmpty()
 {
     return front == -1;
 }
 
-/* Check Full */
 bool isFull()
 {
     return (rear + 1) % MAX == front;
 }
 
-/* Enqueue */
 void enqueue(int val)
 {
     if (isFull()) {
@@ -36,7 +34,6 @@ void enqueue(int val)
     printf("Element Added\n");
 }
 
-/* Dequeue */
 int dequeue()
 {
     if (isEmpty()) {
@@ -55,7 +52,6 @@ int dequeue()
     return val;
 }
 
-/* Peek */
 int peek()
 {
     if (isEmpty()) {
@@ -66,7 +62,6 @@ int peek()
     return queue[front];
 }
 
-/* Display */
 void display()
 {
     if (isEmpty()) {

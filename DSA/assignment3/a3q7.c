@@ -49,7 +49,7 @@ int evaluatePostfix(char exp[])
         if (isdigit(ch))
         {
             push(ch - '0');
-        }
+        } 
         else if (ch == '+' || ch == '-' || ch == '*' || ch == '/')
         {
             int val1 = pop();

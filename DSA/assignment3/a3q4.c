@@ -2,8 +2,8 @@
 #include <stdbool.h>
 #include <limits.h>
 
-#define MAX 10          // Size of each stack
-#define STACK_COUNT 10  // Maximum number of stacks
+#define MAX 10          
+#define STACK_COUNT 10  
 
 typedef struct stack {
     int stack[MAX];
@@ -51,12 +51,11 @@ int peek(stack *s) {
 }
 
 void print(stack *s) {
-    printf("\nStack Contents:\n");
-
-    for (int i = MAX - 1; i >= 0; i--) {
-        printf("| %d |\n", s->stack[i]);
-        printf("-----\n");
+    printf("STACK TOP : ");
+    for (int i = s->top; i >= 0; i--) {
+        printf(" %d ", s->stack[i]);
     }
+    printf("\n");
 }
 
 void create(stack arr[], int n) {
@@ -81,8 +80,8 @@ int main() {
 
     stack arr[STACK_COUNT];
 
-    int size = 1;  // Number of created stacks
-    int n = 0;     // Current stack index
+    int size = 1;  
+    int n = 0;     
     int i, j;
 
     create(arr, 0);

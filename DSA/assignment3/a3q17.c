@@ -78,38 +78,36 @@ void dis(int ch) {
     }
     if (ch == 0) {
         node *temp = front;
+        printf("Front = ");
         while (temp != NULL) {
             printf("[%p | %d | %p] -> ", temp->prev, temp->val, temp->next);
             temp = temp->next;
         }
+        printf(" = Rear\n");
     } else {
         node *temp = rear;
+        printf("Rear = ");
         while (temp != NULL) {
             printf("[%p | %d | %p] -> ", temp->next, temp->val, temp->prev);
             temp = temp->prev;
         }
+        printf(" = Front\n");
     }
     printf("\n");
 }
 
 int main() {
-    srand(time(NULL));
 
     int ch, val;
     bool f = true;
-    int i = (rand() % 20) + 1;
     while (f) {
-        if ((i--) == 0) {
-            ch = 3;
-        } else {
-            ch = (rand() % 2) + 1;
-        }
         printf("\n------------------------\n");
         printf("         Queue          \n");
         printf("------------------------\n");
         printf("1. enqueue\n");
         printf("2. dequeu\n");
-        printf("3. exit\n>>>  %d\n",ch);
+        printf("3. exit\n>>> ");
+        scanf("%d",&ch);
 
         switch (ch) {
             case 1:

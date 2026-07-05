@@ -44,9 +44,11 @@ int peek() {
 }
 
 void print() {
-    for (int i = MAX - 1; i >= 0; i--) {
-        printf("| %d |\n-----\n", stack[i]);
+    printf("STACK TOP : ");
+    for (int i = top; i >= 0; i--) {
+        printf(" %d ", stack[i]);
     }
+    printf("\n");
 }
 
 int main() {

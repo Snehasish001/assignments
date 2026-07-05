@@ -45,8 +45,7 @@ char peek()
     return stack[top];
 }
 
-bool isMatching(char open, char close)
-{
+bool isMatching(char open, char close) {
     return (open == '(' && close == ')') ||
            (open == '{' && close == '}') ||
            (open == '[' && close == ']');

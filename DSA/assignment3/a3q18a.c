@@ -15,8 +15,6 @@ Node queue[MAX];
 int front = -1;
 int rear = -1;
 
-/* Utility Functions */
-
 bool isEmpty()
 {
     return front == -1;
@@ -27,7 +25,6 @@ bool isFull()
     return rear == MAX - 1;
 }
 
-/* Enqueue */
 
 void enqueue(int val, int priority)
 {
@@ -52,8 +49,6 @@ void enqueue(int val, int priority)
     printf("Enqueued Successfully.\n");
 }
 
-/* Peek Highest Priority */
-
 Node peek()
 {
     Node temp = {-1, -1};
@@ -77,7 +72,6 @@ Node peek()
     return queue[maxIndex];
 }
 
-/* Dequeue Highest Priority */
 
 Node dequeue()
 {
@@ -118,8 +112,6 @@ Node dequeue()
     return temp;
 }
 
-/* Display */
-
 void display()
 {
     if (isEmpty())
@@ -140,7 +132,6 @@ void display()
     printf("= Rear\n");
 }
 
-/* Main */
 
 int main()
 {
@@ -149,15 +140,9 @@ int main()
     int val;
     int priority;
     Node temp;
-    int i = 30;
+
     while (1)
     {
-        i--;
-        if (i == 0) {
-            ch = 4;
-        } else {
-            ch = (rand() % 3) + 1;
-        }
         printf("\n-------------------------\n");
         printf("      Priority Queue\n");
         printf("-------------------------\n");
@@ -165,15 +150,16 @@ int main()
         printf("2. Dequeue\n");
         printf("3. Peek\n");
         printf("4. Exit\n");
-        printf(">>>  %d\n", ch);
+        printf(">>>  ");
+        scanf("%d",&ch);
 
         switch (ch)
         {
         case 1:
             val = rand() % 100;
             priority = rand() % 10;
-            printf("Enter Value : %d\n");
-            printf("Enter Priority : %d\n");
+            printf("Enter Value : %d\n", val);
+            printf("Enter Priority : %d\n", priority);
 
             enqueue(val, priority);
             display();
@@ -204,7 +190,7 @@ int main()
             break;
 
         default:
-            printf("Wrong Input\n");
+            printf("Program terminating ... \n");
             return 0;
         }
     }

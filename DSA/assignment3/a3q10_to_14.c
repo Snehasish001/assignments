@@ -12,7 +12,6 @@ typedef struct Queue
     int rear;
 } Queue;
 
-/* Queue Operations */
 
 bool isEmpty(Queue *q)
 {
@@ -89,7 +88,7 @@ void createQueue(Queue arr[], int n)
         arr[n].queue[i] = 0;
 }
 
-/* Append Queue X to Queue Y */
+
 
 void appendQueue(Queue *y, Queue *x)
 {

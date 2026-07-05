@@ -7,7 +7,6 @@
 char stack[MAX];
 int top = -1;
 
-/* Stack Functions */
 
 bool isEmpty()
 {
@@ -51,8 +50,6 @@ char peek()
     return stack[top];
 }
 
-/* Precedence Function */
-
 int precedence(char op)
 {
     switch (op)
@@ -74,8 +71,6 @@ int precedence(char op)
     }
 }
 
-/* Infix to Postfix */
-
 void infixToPostfix(char infix[], char postfix[])
 {
     int i = 0;
@@ -84,19 +79,15 @@ void infixToPostfix(char infix[], char postfix[])
 
     while ((ch = infix[i]) != '\0')
     {
-        /* Operand */
         if (isalnum(ch))
         {
             postfix[j++] = ch;
         }
 
-        /* Left Parenthesis */
         else if (ch == '(')
         {
             push(ch);
         }
-
-        /* Right Parenthesis */
         else if (ch == ')')
         {
             while (!isEmpty() && peek() != '(')
@@ -106,11 +97,10 @@ void infixToPostfix(char infix[], char postfix[])
 
             if (!isEmpty() && peek() == '(')
             {
-                pop();      // Remove '('
+                pop(); 
             }
         }
 
-        /* Operator */
         else
         {
             while (!isEmpty() &&
@@ -124,8 +114,6 @@ void infixToPostfix(char infix[], char postfix[])
 
         i++;
     }
-
-    /* Pop remaining operators */
 
     while (!isEmpty())
     {

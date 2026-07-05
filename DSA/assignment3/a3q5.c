@@ -59,14 +59,13 @@ void display()
 
     Node *temp = top;
 
-    printf("\n");
+    printf("Stack TOP = ");
     while (temp != NULL)
     {
-        printf("-------\n");
-        printf("|  %d  |\n", temp->val);
+        printf(" %d ", temp->val);
         temp = temp->next;
     }
-    printf("-------\n");
+    printf("\n");
 }
 
 
