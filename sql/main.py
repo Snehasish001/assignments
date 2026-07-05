@@ -1,9 +1,6 @@
 import random
 from datetime import datetime, timedelta
 
-# -----------------------------
-# MASTER DATA
-# -----------------------------
 
 names = [
     "Rakesh", "Ahmod", "Koushik", "Snehasish", "Devraj", "Sourav", "Dipu",
@@ -62,9 +59,6 @@ states = [
 departments = ["DP001", "DP002", "DP003", "DP004", "DP005"]
 designations = ["D001", "D002", "D003", "D004", "D005"]
 
-# -----------------------------
-# VALIDATION FUNCTIONS
-# -----------------------------
 
 def validate_length(value, max_len, field):
     if len(str(value)) > max_len:
@@ -89,23 +83,17 @@ def validate_desig(desig):
     if desig not in designations:
         raise ValueError(f"Invalid Designation -> {desig}")
 
-# -----------------------------
-# CONFIGURATION
-# -----------------------------
 
 TOTAL_EMPLOYEES = 1000
 
-start_date = datetime(2015, 1, 1)
+start_date = datetime(1999, 1, 1)
 end_date = datetime(2025, 12, 31)
 
 used_codes = set()
 rows = []
 
-# -----------------------------
-# GENERATE DATA
-# -----------------------------
 
-for i in range(8, TOTAL_EMPLOYEES + 8):
+for i in range(1, TOTAL_EMPLOYEES):
 
     emp_code = f"E{i:04d}"
 
@@ -114,7 +102,6 @@ for i in range(8, TOTAL_EMPLOYEES + 8):
 
     used_codes.add(emp_code)
 
-    # Table column EMP_NAME = CHAR(20)
     full_name = (
         f"{random.choice(names)} {random.choice(surnames)}"
     )[:20]
@@ -149,9 +136,6 @@ for i in range(8, TOTAL_EMPLOYEES + 8):
         start_date + timedelta(days=random_days)
     ).strftime("%Y-%m-%d")
 
-    # -------------------------
-    # VALIDATION
-    # -------------------------
 
     validate_length(emp_code, 16, "EMP_CODE")
     validate_length(full_name, 20, "EMP_NAME")
@@ -173,9 +157,6 @@ for i in range(8, TOTAL_EMPLOYEES + 8):
         f"{basic:.2f},'{join_date}')"
     )
 
-# -----------------------------
-# CREATE SQL FILE
-# -----------------------------
 
 sql = (
     "INSERT INTO EMPLOYEE "

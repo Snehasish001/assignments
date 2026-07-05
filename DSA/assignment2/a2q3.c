@@ -401,6 +401,7 @@ int main() {
             case 1:
                 freeList(head);
                 head = createList();
+                display(head);
                 break;
 
             case 2:
@@ -411,73 +412,87 @@ int main() {
                 printf("Enter data: ");
                 scanf("%d", &data);
                 head = insertFront(head, data);
+                display(head);
                 break;
 
             case 4:
                 printf("Enter data: ");
                 scanf("%d", &data);
                 head = insertEnd(head, data);
+                display(head);
                 break;
 
             case 5:
                 printf("Enter k and data: ");
                 scanf("%d%d", &k, &data);
                 head = insertAfterK(head, k, data);
+                display(head);
                 break;
 
             case 6:
                 printf("Enter value and data: ");
                 scanf("%d%d", &value, &data);
                 head = insertAfterValue(head, value, data);
+                display(head);
                 break;
 
             case 7:
                 printf("Enter k and data: ");
                 scanf("%d%d", &k, &data);
                 head = insertBeforeK(head, k, data);
+                display(head);
                 break;
 
             case 8:
                 printf("Enter value and data: ");
                 scanf("%d%d", &value, &data);
                 head = insertBeforeValue(head, value, data);
+                display(head);
                 break;
 
             case 9:
                 head = deleteFirst(head);
+                display(head);
                 break;
 
             case 10:
                 head = deleteLast(head);
+                display(head);
                 break;
 
             case 11:
                 printf("Enter k: ");
                 scanf("%d", &k);
                 head = deleteAfterK(head, k);
+                display(head);
                 break;
 
             case 12:
                 printf("Enter k: ");
                 scanf("%d", &k);
                 head = deleteBeforeK(head, k);
+                display(head);
                 break;
 
             case 13:
                 printf("Enter k: ");
                 scanf("%d", &k);
                 head = deleteK(head, k);
+                display(head);
                 break;
 
             case 14:
                 printf("Enter value: ");
                 scanf("%d", &value);
                 head = deleteValue(head, value);
+                display(head);
                 break;
 
             case 15:
+                display(head);
                 head = reverseList(head);
                 printf("List Reversed Successfully\n");
+                display(head);
                 break;
 
             case 0:
