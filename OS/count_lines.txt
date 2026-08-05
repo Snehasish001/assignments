@@ -1,0 +1,32 @@
+1. Write a shell script that asks for the values of 2 variables: userv1 and userv2, from the
+user and takes in any type (real/integer/character). Try to perform the following
+operations on the variables: (a) add, (b) multiply (c) subtract (d) division. Print
+appropriate error message/s if the operation cannot be performed, otherwise print the
+result: “the sum of ‘userv1’ and ‘userv2’ is ....”. Execute the shell script as many number
+of times the user wants. Show all possible combinations of the types of variables and
+result/s of the corresponding operation/s.
+2. Write a shell script which accepts basic salary, House Rent allowance and Dearness
+Allowance of an employee and calculates net salary and displays the salary slip
+containing the Name of the Employee and the net salary.
+3. Write a shell script which accepts a four digit number (integer) and a) displays the sum
+of its digits, b) displays the integer in reverse [that is, if you enter 7890, the program
+output will be 0987].
+5. Write a shell script a) to find out the total count of files and directories in the current
+/any other directory. b) Also list the file and directory names separately with the
+respective counts. c) b) The script should also print out the total size of the files created in
+the past week.
+6. Write a script that adds up the sizes reported by the ls command for the files in the
+current / any other directory. a) The script should print out only the total number of bytes
+used. b) The script should also print out the total size of the files created in the day that
+you are using this script.
+7. The PATH variable is an environment variable that contains an ordered list of paths that
+Linux will search for executables when running a command. Write a shell script to
+display all the directories in the PATH variable in a simple way, i.e., one line per
+directory. In addition, display information about each directory, such as the permissions
+and the modification times.
+8. Write a shell script which displays vendor id, model name, cpu MHz, cache size
+information about the processor present in your computer. [Hint: most of this information
+can be obtained by reading the file /proc/cpuinfo.]
+9. Write a shell script multiplication_table that will generate a multiplication table for a
+number given on the command line.
+10. Write a shell script to count the number of lines in a file.
