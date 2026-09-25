@@ -1,0 +1,109 @@
+Yes. With Python TCP sockets, a file is sent as **bytes**. The basic idea is:
+
+```text
+Sender                         Receiver
+  │                               │
+  │──── filename / metadata ─────>│
+  │                               │
+  │──── file bytes ──────────────>│
+  │──── file bytes ──────────────>│
+  │──── file bytes ──────────────>│
+  │                               │
+  │──── "DONE" ──────────────────>│
+```
+
+The important thing is that **TCP is a byte stream**. It doesn't know where your file begins or ends, so you need some protocol to tell the receiver.
+
+### Simple example
+
+**Server — receives the file**
+
+```python
+import socket
+
+IP_ADDRESS = "127.0.0.1"
+TCP_PORT = 5000
+BUFFER_SIZE = 4096
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind((IP_ADDRESS, TCP_PORT))
+server.listen(1)
+
+print("Waiting for client...")
+conn, addr = server.accept()
+
+print("Connected:", addr)
+
+with open("received.txt", "wb") as file:
+    while True:
+        data = conn.recv(BUFFER_SIZE)
+
+        if data == b"EOF":
+            break
+
+        file.write(data)
+
+print("File received successfully.")
+
+conn.close()
+server.close()
+```
+
+**Client — sends the file**
+
+```python
+import socket
+
+IP_ADDRESS = "127.0.0.1"
+TCP_PORT = 5000
+BUFFER_SIZE = 4096
+
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect((IP_ADDRESS, TCP_PORT))
+
+with open("test.txt", "rb") as file:
+    while True:
+        data = file.read(BUFFER_SIZE)
+
+        if not data:
+            break
+
+        client.sendall(data)
+
+client.sendall(b"EOF")
+
+print("File sent successfully.")
+
+client.close()
+```
+
+### But there is an important problem with this simple version
+
+Using:
+
+```python
+client.sendall(b"EOF")
+```
+
+is **not a robust protocol**.
+
+What if the actual file contains the byte sequence `EOF`? The receiver could mistakenly think the file has ended.
+
+A better real-world approach is to send the **file size first**:
+
+```text
+Client                         Server
+
+filename ─────────────────────>
+file_size ────────────────────>
+                             
+file bytes ──────────────────>
+file bytes ──────────────────>
+file bytes ──────────────────>
+                             
+                exactly file_size bytes received
+```
+
+For example, if the file is 25,000 bytes, the receiver keeps calling `recv()` until it has received exactly 25,000 bytes.
+
+That's the concept you should learn next if you're studying sockets seriously: **message framing over TCP**.
