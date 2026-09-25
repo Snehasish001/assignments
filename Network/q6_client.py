@@ -3,7 +3,7 @@ import socket
 
 SERVER_IP = '127.0.0.1'
 SERVER_PORT = 20000
-BUFF_SIZE = 2048
+BUFF_SIZE = 2873
 
 client = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
 

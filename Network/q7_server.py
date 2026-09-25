@@ -1,7 +1,7 @@
 import socket
 import os
 
-BUF_SIZE = 2873
+BUF_SIZE = 1024
 IP_ADDR = '127.0.0.1'
 PORT = 20000
 
@@ -22,19 +22,14 @@ while True:
     filepath = os.path.join('send', filename)
 
     if os.path.exists(filepath):
-        if os.path.getsize(filepath) > BUF_SIZE:
-            server.sendto(
-                "ERROR : FILE SIZE IS GREATER THAN BUFFER SIZE".encode(),
-                client_addr
-            )
-            print('File size is greater than buffer size')
-
-        else:
-            with open(filepath, 'rb') as file:
+        with open(filepath, 'rb') as file:
+            while True:
                 data = file.read(BUF_SIZE)
-
-            server.sendto(data, client_addr)
-            print('File sent successfully')
+                if not data:
+                    break
+                server.sendto(data, client_addr)
+            server.sendto('END'.encode(), client_addr)
+        print('File sent successfully')
 
     else:
         server.sendto(
