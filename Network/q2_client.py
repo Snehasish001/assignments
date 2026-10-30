@@ -9,20 +9,29 @@ def main():
     k.connect((IP_ADDR, TCP_PORT))
 
     req = input("Enter file name : ")
-    k.send(req.encode())
+    k.sendall(req.encode())
+
+    response = k.recv(BUFFER_SIZE)
+
+    if response == b"404 FILE NOT FOUND.":
+        print(response.decode())
+        k.close()
+        return
     
     path = f"./recv/{req}"
     with open(path, "wb") as file:
+        file.write(response)
+
         while True:
             data = k.recv(BUFFER_SIZE)
 
-            if data == b"EOF":
+            if not data:
                 break
 
             file.write(data)
+
     print("File received successfully.")
     k.close()
-
 
 
 if __name__ == "__main__":

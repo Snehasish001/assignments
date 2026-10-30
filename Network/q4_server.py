@@ -1,5 +1,5 @@
 import socket
-import subprocess as sp
+from datetime import datetime
 import multiprocessing as mp
 
 
@@ -15,44 +15,29 @@ def client_handler(conn, BUFF_SIZE):
         match command:
 
             case 'time':
-                command = ['date', '+%T']
+                res = datetime.now().strftime("%H:%M:%S")
 
             case 'date':
-                command = ['date', '+%F']
+                res = datetime.now().strftime("%Y-%m-%d")
 
             case 'hostname':
-                command = ['hostname']
+                res = socket.gethostname()
 
             case 'quit':
+                conn.sendall(b"Connection terminated.")
                 break
 
+            case _ if command.startswith('echo '):
+                res = command[5:]
+
             case _:
-                conn.send(b"Invalid command")
+                conn.sendall(b"Invalid command")
                 continue
 
-        try:
-            res = sp.run(
-                command,
-                capture_output=True,
-                text=True,
-                check=True
-            )
+        conn.sendall(res.encode())
 
-            conn.send(res.stdout.encode())
-
-            print("Command executed successfully.")
-            print("Output sent successfully.")
-
-        except sp.CalledProcessError as e:
-
-            print(
-                f"Command execution failed. "
-                f"Exit code: {e.returncode}"
-            )
-
-            conn.send(
-                f"Command failed: {e.stderr}".encode()
-            )
+        print("Command executed successfully.")
+        print("Output sent successfully.")
 
     conn.close()
     print("Connection closed.")
@@ -73,7 +58,7 @@ def main():
 
     print("Server is bound successfully.")
 
-    server.listen(1)
+    server.listen(10)
 
     while True:
 
@@ -81,7 +66,10 @@ def main():
 
         conn, addr = server.accept()
 
-        print(f"Connected to {addr}.")
+        print(
+            f"Connected to IP : {addr[0]}, "
+            f"Port : {addr[1]}."
+        )
 
         process = mp.Process(
             target=client_handler,

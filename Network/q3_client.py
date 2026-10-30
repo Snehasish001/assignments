@@ -11,17 +11,17 @@ def main():
 
     flag = True
     while flag:
-        command = input("Enter :\n1. time\n2. date\n3. hostname\n4. quit\n >>> ")
+        command = input("Enter :\n1. time\n2. date\n3. hostname\n4. echo <message>\n5. quit\n >>> ")
         command = command.lower()
 
-        if command == 'quit':
-            flag = False
-
-        client.send(command.encode())
-        print("Command sent succefully.")
+        client.sendall(command.encode())
+        print("Command sent successfully.")
 
         res = client.recv(BUF_SIZE)
         print(res.decode())
+
+        if command == 'quit':
+            flag = False
     
     client.close()
     print("Client closed.")

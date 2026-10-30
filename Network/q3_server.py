@@ -1,5 +1,5 @@
 import socket
-import subprocess as sp
+from datetime import datetime
 
 def main():
     IP_ADDR = '127.0.0.1'
@@ -10,40 +10,43 @@ def main():
     k.bind((IP_ADDR, TCP_PORT))
     print("Server is bounded successfully.")
 
+    k.listen(1)
+
     while True:
-        k.listen(1)
         print("Server is waiting ...")
         conn, addr = k.accept()
 
-        print(F"Connected to {addr}.")
+        print(f"Connected to IP : {addr[0]}, Port : {addr[1]}.")
 
         while True:
             command = conn.recv(BUFF_SIZE)
+
+            if not command:
+                break
+
             command = command.decode()
+
             match command:
                 case 'time':
-                    command = ['date', "+'%F'"]
+                    res = datetime.now().strftime("%H:%M:%S")
                 case 'date':
-                    command = ['date', "+'%F'"]
+                    res = datetime.now().strftime("%Y-%m-%d")
                 case 'hostname':
-                    command = ['hostname']
+                    res = socket.gethostname()
                 case 'quit':
+                    conn.sendall(b"Connection terminated.")
                     break
-            try:
-                res = sp.run(command, capture_output=True, text=True, check=True)
-                res = res.stdout
-                print("Command executed successfully.")
-                conn.send(str(res).encode())
-                print("Output sent succefully.")
-            except sp.CalledProcessError as e:
-                print(F"Command execution faild. Exit code : {e.returncode}")
-                print(F"Error message : {e.stderr}")
+                case _ if command.startswith('echo '):
+                    res = command[5:]
+                case _:
+                    res = "Invalid command."
+
+            print("Command executed successfully.")
+            conn.sendall(res.encode())
+            print("Output sent successfully.")
+
         conn.close()
 
 
 if __name__ == "__main__":
     main()
-
-        
-
-

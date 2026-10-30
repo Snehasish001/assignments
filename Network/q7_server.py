@@ -21,19 +21,27 @@ while True:
 
     filepath = os.path.join('send', filename)
 
-    if os.path.exists(filepath):
+    if os.path.isfile(filepath):
         with open(filepath, 'rb') as file:
+            seq = 0
+
             while True:
-                data = file.read(BUF_SIZE)
+                data = file.read(BUF_SIZE - 20)
+
                 if not data:
                     break
-                server.sendto(data, client_addr)
-            server.sendto('END'.encode(), client_addr)
+
+                packet = str(seq).encode() + b':' + data
+                server.sendto(packet, client_addr)
+
+                seq += 1
+
+        server.sendto(b'END', client_addr)
         print('File sent successfully')
 
     else:
         server.sendto(
-            "ERROR : FILE NOT FOUND".encode(),
+            b"ERROR : FILE NOT FOUND",
             client_addr
         )
         print('File Not Found')

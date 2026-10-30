@@ -23,20 +23,21 @@ def main():
             "1. time\n"
             "2. date\n"
             "3. hostname\n"
-            "4. quit\n"
+            "4. echo <message>\n"
+            "5. quit\n"
             ">>> "
         ).lower().strip()
 
-        client.send(command.encode())
+        client.sendall(command.encode())
 
         print("Command sent successfully.")
-
-        if command == 'quit':
-            break
 
         res = client.recv(BUF_SIZE)
 
         print("Server:", res.decode())
+
+        if command == 'quit':
+            break
 
     client.close()
 

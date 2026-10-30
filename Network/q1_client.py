@@ -6,19 +6,17 @@ BUFFER_SIZE = 1024
 
 flag = True
 while flag:
-    k = socket.socket(family=socket.AF_INET, type= socket.SOCK_STREAM)
+    k = socket.socket(family=socket.AF_INET, type=socket.SOCK_STREAM)
     k.connect((IP_ADDRESS, TCP_PORT))
     print("\n\nClient has sent connection request.")
 
     msg = input("MESSAGE : ")
-    k.send(msg.encode())
-    print("Messege sent successfully.")
+    k.sendall(msg.encode())
+    print("Message sent successfully.")
 
     data = k.recv(BUFFER_SIZE)
-    print("RECEIVED : ",data.decode())
+    print("RECEIVED : ", data.decode())
 
     k.close()
 
     flag = False if input("Enter x for exit : ").lower() == 'x' else True
-
-

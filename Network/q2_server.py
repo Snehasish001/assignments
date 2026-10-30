@@ -10,11 +10,10 @@ def main():
     k.bind((IP_ADDR, TCP_PORT))
     print("Server is Bounded successfully.")
 
-    
     k.listen(1)
     print("Server is listening ... ")
     conn, addr = k.accept()
-    print("Connection address : ",addr)
+    print("Connection address : ", addr)
 
     req = conn.recv(BUFFER_SIZE)
 
@@ -27,14 +26,14 @@ def main():
                     break
 
                 conn.sendall(data)
-        conn.sendall(b"EOF")
+
         print("File sent successfully")
     else:
-        conn.send(b"404 FILE NOT FOUND.")
+        conn.sendall(b"404 FILE NOT FOUND.")
         print("FILE NOT FOUND")
+
     conn.close()
     k.close()
-
 
 
 if __name__ == "__main__":

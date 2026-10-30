@@ -1,5 +1,5 @@
 import socket
-import subprocess
+from datetime import datetime
 
 BUF_SIZE = 1024
 IP_ADDR = '127.0.0.1'
@@ -16,7 +16,19 @@ while True:
     print(F'Client IP  : {bytesAddressPair[1]}')
     print(F'Client msg : {bytesAddressPair[0].decode()}')
 
-    data = (subprocess.run(['date'], capture_output=True, text=True)).stdout
+    command = bytesAddressPair[0].decode().upper()
+
+    if command == 'DATE':
+        data = datetime.now().strftime("%Y-%m-%d")
+
+    elif command == 'TIME':
+        data = datetime.now().strftime("%H:%M:%S")
+
+    elif command == 'DATETIME':
+        data = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    else:
+        data = "Invalid request. Use DATE, TIME or DATETIME."
+
     server.sendto(data.encode(), bytesAddressPair[1])
     print('Message sent successfully')
-

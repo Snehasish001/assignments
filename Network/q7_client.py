@@ -13,16 +13,29 @@ client.sendto(filename.encode(), (SERVER_IP, SERVER_PORT))
 
 filename = os.path.join('recv', filename)
 
-with open(filename, 'wb+') as file:
-    while True:
-        res = client.recvfrom(BUFF_SIZE)
+chunks = {}
 
-        data = res[0]
+while True:
+    res = client.recvfrom(BUFF_SIZE)
 
-        if not data.decode(errors='ignore').startswith('END') :
-            file.write(data)
-        else:
-            break
+    data = res[0]
+
+    if data == b'END':
+        break
+
+    if data.startswith(b'ERROR'):
+        print(data.decode())
+        client.close()
+        exit()
+
+    seq, data = data.split(b':', 1)
+    seq = int(seq.decode())
+
+    chunks[seq] = data
+
+with open(filename, 'wb') as file:
+    for seq in sorted(chunks):
+        file.write(chunks[seq])
 
 print('File Recieved.')
 client.close()

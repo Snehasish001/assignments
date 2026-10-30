@@ -19,7 +19,7 @@ while True:
 
     bytesAddressPair = server.recvfrom(BUF_SIZE)
 
-    hostname = bytesAddressPair[0].decode()
+    hostname = bytesAddressPair[0].decode().strip().lower()
     client_addr = bytesAddressPair[1]
 
     print(f'Client IP : {client_addr}')

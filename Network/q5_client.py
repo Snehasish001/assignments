@@ -6,7 +6,11 @@ BUFF_SIZE = 1024
 
 client = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
 
-client.sendto("Hello UDP server".encode(), (SERVER_IP, SERVER_PORT))
+msg = input("Enter DATE, TIME or DATETIME : ").upper()
+
+client.sendto(msg.encode(), (SERVER_IP, SERVER_PORT))
 
 res = client.recvfrom(BUFF_SIZE)
 print(f"Response : {res[0].decode()}")
+
+client.close()

@@ -9,7 +9,7 @@ client = socket.socket(
     type=socket.SOCK_DGRAM
 )
 
-hostname = input('Enter hostname: ')
+hostname = input('Enter hostname: ').strip().lower()
 
 client.sendto(
     hostname.encode(),

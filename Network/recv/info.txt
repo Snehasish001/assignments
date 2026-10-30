@@ -107,3 +107,4 @@ file bytes ──────────────────>
 For example, if the file is 25,000 bytes, the receiver keeps calling `recv()` until it has received exactly 25,000 bytes.
 
 That's the concept you should learn next if you're studying sockets seriously: **message framing over TCP**.
+EOF
