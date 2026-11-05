@@ -1,0 +1,11 @@
+#include<stdio.h>
+
+int main()
+{
+    int 2abc;
+    int a = 12.3.4;
+
+    a = a @ 10;
+
+    return 0;
+}
