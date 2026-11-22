@@ -77,11 +77,11 @@ def main() -> None:
     # Display Simulated Input
     # --------------------------------------------------------
 
-    print("\n--- Simulated Input ---")
+    print("--- Simulated Input ---")
 
     print(f"KLOC : {kloc}")
 
-    print("\nScale Factors:")
+    print("Scale Factors:")
 
     for i, value in enumerate(scale_factors, 1):
         print(f"SF{i} : {value}")

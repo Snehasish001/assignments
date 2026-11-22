@@ -1,4 +1,7 @@
 
+import random
+
+
 def type_of_project(KLOC: float) -> str:
     if KLOC < 50:
         return 'Organic'
@@ -32,14 +35,9 @@ def calculate_eaf(cost_drivers: dict) -> float:
 
     for driver, ratings in cost_drivers.items():
 
-        print(f"\n{driver}")
-        print("Available ratings:", ", ".join(ratings.keys()))
+        rating = random.choice(list(ratings.keys()))
 
-        rating = input("Enter rating: ")
-
-        while rating not in ratings:
-            print("Invalid rating!")
-            rating = input("Enter rating: ")
+        print(f"{driver} : {rating}")
 
         eaf *= ratings[rating]
 
@@ -177,7 +175,10 @@ def main() -> None:
         }
     }
 
-    KLOC = float(input("Enter lines of code (KLOC): "))
+    # Generate random KLOC
+    KLOC = random.uniform(1, 500)
+
+    print(f"Generated KLOC : {KLOC:.2f}")
 
     project_type = type_of_project(KLOC)
 
